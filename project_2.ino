@@ -48,6 +48,7 @@ void setup() {
   pinMode(L3, OUTPUT);
   pinMode(L4, OUTPUT);
   calibrateSensors(2000);
+  Serial.begin(9600);
 }
 
 int time = millis(); // millis() gibt die Anzahl an Millisekunden die nach Programmstart vergangen sind zurueck
@@ -63,20 +64,21 @@ void loop() {
   if(analogRead(S2) < S2Normal - epsilon) {
     t2 = millis();
     digitalWrite(L2, HIGH);
-    delay((int)(6.5 * (t1 - time) / 14.5)); // Der Abstand zwischen den ersten beiden Sensoren ist 14,5cm; der Abstand zwischen dem 2. Sensor und der Mitte der 2. Spule ist 6,5cm. 
+    delay((int)(6.5 * (t2 - t1) / 14.5)); // Der Abstand zwischen den ersten beiden Sensoren ist 14,5cm; der Abstand zwischen dem 2. Sensor und der Mitte der 2. Spule ist 6,5cm. 
     digitalWrite(L2, LOW);
   }
   if(analogRead(S3) < S3Normal - epsilon) {
     t3 = millis();
     digitalWrite(L3, HIGH);
-    delay((int)(6.5 * (t2 - t1) / 15.0));
+    delay((int)(6.5 * (t3 - t2) / 15.0));
     digitalWrite(L3, LOW);
   }
   if(analogRead(S4) < S4Normal - epsilon) {
     t4 = millis();
     digitalWrite(L4, HIGH);
-    delay((int)(6.5 * (t3 - t2) / 14.0));
+    delay((int)(6.5 * (t4 - t3) / 14.0));
     digitalWrite(L4, LOW);
   }
+  Serial.println(analogRead(S2));
 }
 
